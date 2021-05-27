@@ -1,6 +1,5 @@
 #include "graph.h"
 
-
 int main()
 {
     int n, m;
@@ -18,16 +17,22 @@ int main()
         string temp;
         while (cin >> temp)
         {
+            if (temp == "q")
+            {
+                cerr << "ERROR: soory, can't use 'q' as vertex name" << endl;
+                continue;
+            }
+
             if (graph.find(temp, i) != -1)
             {
                 graph.getVertices()[i]->name = temp;
                 break;
             }
+
             else
                 cerr << "ERROR: REPEAT NAME" << endl;
         }
     }
-
 
     cout << "Input edges in the format: v1(name) v2(name)" << endl;
     string v1, v2;
@@ -63,12 +68,16 @@ int main()
             break;
         }
     }
-
+    
     while (true)
     {
         cout << "Input v(name) to output all connected vertices, or q to quit" << endl;
         string v;
         cin >> v;
+
+        if(v == "q") {
+            break;
+        }
 
         int f = graph.find(v1, n);
         if (f == -1)
