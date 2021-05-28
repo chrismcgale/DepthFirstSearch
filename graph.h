@@ -14,9 +14,13 @@ struct Vertex
 class Graph {
     int n, m;
     Vertex* vertices[];
+    bool* visited;
     public:
     Graph(int n, int m);
     int find(string temp, int i);
-    void breadth_first_search(int i, int n);
+    void breadth_first_search(int i);
+    void depth_first_search(Vertex* s);
+    void setVisited();
+    void delVisited() { delete visited; }
     Vertex** getVertices() { return vertices; }
 };

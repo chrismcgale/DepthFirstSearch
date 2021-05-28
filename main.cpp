@@ -68,23 +68,63 @@ int main()
             break;
         }
     }
-    
+
     while (true)
     {
-        cout << "Input v(name) to output all connected vertices, or q to quit" << endl;
-        string v;
-        cin >> v;
-
-        if(v == "q") {
-            break;
-        }
-
-        int f = graph.find(v1, n);
-        if (f == -1)
+        cout << "Options: dfs bfs q" << endl;
+        string option;
+        while (cin >> option)
         {
-            cerr << "ERROR: INVALID NAME" << endl;
-            continue;
+
+            if (option == "bfs")
+            {
+                cout << "Input v(name) to output all connected vertices, or q to quit" << endl;
+                string v;
+                cin >> v;
+
+                if (v == "q")
+                {
+                    cout << "Options: dfs bfs q" << endl;
+                    break;
+                }
+
+                int f = graph.find(v, n);
+                if (f == -1)
+                {
+                    cerr << "ERROR: INVALID NAME" << endl;
+                    continue;
+                }
+                graph.setVisited();
+                graph.breadth_first_search(f);
+                graph.delVisited();
+            }
+
+            else if (option == "dfs")
+            {
+                cout << "Input v(name) to output all connected vertices, or b to go back" << endl;
+                string v;
+                cin >> v;
+
+                if (v == "b")
+                {
+                    cout << "Options: dfs bfs q" << endl;
+                    break;
+                }
+
+                int f = graph.find(v, n);
+                if (f == -1)
+                {
+                    cerr << "ERROR: INVALID NAME" << endl;
+                    continue;
+                }
+                graph.setVisited();
+                graph.depth_first_search(graph.getVertices()[f]);
+                graph.delVisited();
+            }
+
+            else if (option == "q") {
+                break;
+            }
         }
-        graph.breadth_first_search(f, n);
     }
 }

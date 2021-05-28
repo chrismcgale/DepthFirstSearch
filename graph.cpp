@@ -3,13 +3,20 @@
 int Vertex::edgeFind(string v2)
 {
     for (int i = 0; i < edges.size(); ++i)
-        if (edges[i]->name == v2) return i;
+        if (edges[i]->name == v2)
+            return i;
 
     return -1;
 }
 
 Graph::Graph(int n, int m) : n{n}, m{m}
-{}
+{
+}
+
+void Graph::setVisited()
+{
+    visited = new bool[n]{false};
+}
 
 int Graph::find(string temp, int i)
 {
@@ -21,9 +28,9 @@ int Graph::find(string temp, int i)
     return -1;
 }
 
-void Graph::breadth_first_search(int i, int n)
+void Graph::breadth_first_search(int i)
 {
-    bool visited[n] = {false};
+    Vertex *s = vertices[i];
     if (s->edges.size() == 0)
     {
         cout << "Connected to none" << endl;
@@ -43,5 +50,24 @@ void Graph::breadth_first_search(int i, int n)
                 visited[v] = true;
                 cout << v->name << endl;
             }
+    }
+}
+
+void Graph::depth_first_search(Vertex *s)
+{
+    if (s->edges.size() == 0)
+    {
+        return;
+    }
+    visited[s] = true;
+    for (int k = 0; k < s->edges.size(); ++k)
+    {
+        Vertex *v = s->edges[k];
+        if (visited[v] == false)
+        {
+            visited[v] = true;
+            cout << v->name << endl;
+            depth_first_search(v);
+        }
     }
 }
