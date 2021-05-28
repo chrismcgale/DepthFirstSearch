@@ -1,7 +1,7 @@
 # Graphs
 C++ OOP Implementation of graphs with BFS and DFS
 
-<h> Not complete </h>
+**Not complete**
 Follow instructions to perform a depth first or bredth first search printing all the vertices connected to a specified vertex.
 
 To Do: <br>
