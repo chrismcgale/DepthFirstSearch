@@ -9,8 +9,9 @@ int Vertex::edgeFind(string v2)
     return -1;
 }
 
-Graph::Graph(int n, int m) : n{n}, m{m}
+Graph::Graph(int n) : n{n}
 {
+    //Want to be able to add vertices as option so not initializing visited yet
 }
 
 void Graph::setVisited()
@@ -44,6 +45,7 @@ void Graph::breadth_first_search(int i)
         Vertex *u = q.front();
         q.pop();
         for (int k = 0; k < u->edges.size(); ++k)
+            Vertex *v = u->edges[k];
             if (visited[v] == false)
             {
                 q.push(v);
@@ -53,6 +55,7 @@ void Graph::breadth_first_search(int i)
     }
 }
 
+// could implement as stack but this works the same and same time compl.
 void Graph::depth_first_search(Vertex *s)
 {
     if (s->edges.size() == 0)

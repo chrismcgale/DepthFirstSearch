@@ -12,11 +12,11 @@ struct Vertex
 };
 
 class Graph {
-    int n, m;
-    Vertex* vertices[];
+    int n;
     bool* visited;
+    Vertex* vertices[];
     public:
-    Graph(int n, int m);
+    Graph(int n);
     int find(string temp, int i);
     void breadth_first_search(int i);
     void depth_first_search(Vertex* s);

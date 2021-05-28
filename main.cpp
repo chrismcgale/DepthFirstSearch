@@ -7,9 +7,7 @@ int main()
     cout << "Input number of vertices" << endl;
     cin >> n;
 
-    cout << "Input number of edges" << endl;
-    cin >> m;
-    Graph graph(n, m);
+    Graph graph(n);
 
     cout << "Input unique names of each vertex";
     for (int i = 0; i < n; ++n)
@@ -19,7 +17,7 @@ int main()
         {
             if (temp == "q")
             {
-                cerr << "ERROR: soory, can't use 'q' as vertex name" << endl;
+                cerr << "ERROR: sorry, can't use 'q' as vertex name" << endl;
                 continue;
             }
 
@@ -35,11 +33,12 @@ int main()
     }
 
     cout << "Input edges in the format: v1(name) v2(name)" << endl;
+    cout << "Type q to quit" << endl;
     string v1, v2;
-    for (int j = 0; j < m; ++j)
-    {
-        while (cin >> v1 >> v2)
+        while (cin >> v1 )
         {
+            if (v1 == "q") break;
+            cin >> v2;
             int p1 = graph.find(v1, n);
             if (p1 == -1)
             {
@@ -67,7 +66,6 @@ int main()
             graph.getVertices()[p2]->edges.push_back(graph.getVertices()[p1]);
             break;
         }
-    }
 
     while (true)
     {
