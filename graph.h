@@ -4,23 +4,26 @@
 #include <queue>
 using namespace std;
 
-struct Vertex
+struct Edge
 {
-    string name;
-    vector<Vertex *> edges;
-    int edgeFind(string v2);
+    int start_ver, end_ver, weight;
 };
 
-class Graph {
+struct Vertex
+{
+    int value;
+    int cost;
+    Vertex *next;
+};
+
+class Graph
+{
     int n;
-    bool* visited;
-    Vertex* vertices[];
-    public:
-    Graph(int n);
+public:
+    Vertex **head;
+    Graph(int n, Edge edges[], int m);
+    ~Graph();
     int find(string temp, int i);
-    void breadth_first_search(int i);
-    void depth_first_search(Vertex* s);
-    void setVisited();
-    void delVisited() { delete visited; }
-    Vertex** getVertices() { return vertices; }
+    void breadth_first_search(Vertex *s);
+    void depth_first_search(Vertex *s);
 };

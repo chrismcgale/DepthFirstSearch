@@ -1,38 +1,31 @@
 #include "graph.h"
 
-int Vertex::edgeFind(string v2)
+Graph::Graph(int n, Edge edges[], int m) : n{n}
 {
-    for (int i = 0; i < edges.size(); ++i)
-        if (edges[i]->name == v2)
-            return i;
+    head = new Vertex *[n]();
+    for (int i = 0; i < n; ++i)
+        head[i] = nullptr;
+    for (int j = 0; j < n; ++j)
+    {
+        int start = edges[j].start_ver;
+        int weight = edges[j].weight;
 
-    return -1;
+        head[start] = new Vertex{start, weight, head[start]};
+    }
 }
 
-Graph::Graph(int n) : n{n}
+Graph::~Graph()
 {
-    //Want to be able to add vertices as option so not initializing visited yet
+    for (int i = 0; i < n; ++i)
+    {
+        delete[] head[i];
+        delete[] head;
+    }
 }
 
-void Graph::setVisited()
+void Graph::breadth_first_search(Vertex *s)
 {
-    visited = new bool[n]{false};
-}
-
-int Graph::find(string temp, int i)
-{
-    for (int j = 0; j < i; ++j)
-        if (vertices[j]->name == temp)
-        {
-            return j;
-        }
-    return -1;
-}
-
-void Graph::breadth_first_search(int i)
-{
-    Vertex *s = vertices[i];
-    if (s->edges.size() == 0)
+    if (s->next == nullptr)
     {
         cout << "Connected to none" << endl;
         return;
@@ -44,33 +37,32 @@ void Graph::breadth_first_search(int i)
     {
         Vertex *u = q.front();
         q.pop();
-        for (int k = 0; k < u->edges.size(); ++k)
-            Vertex *v = u->edges[k];
+        Vertex *v = u->next;
+        while (v != nullptr)
+        {
             if (visited[v] == false)
             {
                 q.push(v);
                 visited[v] = true;
-                cout << v->name << endl;
+                cout << v->value << endl;
             }
+            v = v->next;
+        }
     }
 }
 
 // could implement as stack but this works the same and same time compl.
 void Graph::depth_first_search(Vertex *s)
 {
-    if (s->edges.size() == 0)
-    {
-        return;
-    }
     visited[s] = true;
-    for (int k = 0; k < s->edges.size(); ++k)
+    Vertex* u = s;
+    while (u != nullptr)
     {
-        Vertex *v = s->edges[k];
-        if (visited[v] == false)
+        if (visited[u] == false)
         {
-            visited[v] = true;
-            cout << v->name << endl;
-            depth_first_search(v);
+            cout << u->value << endl;
+            depth_first_search(u);
         }
+        u = u->next;
     }
 }

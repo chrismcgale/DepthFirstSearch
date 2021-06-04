@@ -3,69 +3,30 @@
 int main()
 {
     int n, m;
+    Edge *edges;
 
     cout << "Input number of vertices" << endl;
     cin >> n;
+    cout << "Input number of vertices" << endl;
+    cin >> m;
 
-    Graph graph(n);
-
-    cout << "Input unique names of each vertex";
-    for (int i = 0; i < n; ++n)
+    cout << "Input edges in the format: v1(int) v2(int) weight(int)" << endl;
+    cout << "Type q to quit" << endl;
+    for (int i = 0; i < m; ++i)
     {
-        string temp;
-        while (cin >> temp)
+        int v1, v2, weight;
+        while (cin >> v1)
         {
-            if (temp == "q")
-            {
-                cerr << "ERROR: sorry, can't use 'q' as vertex name" << endl;
-                continue;
-            }
-
-            if (graph.find(temp, i) != -1)
-            {
-                graph.getVertices()[i]->name = temp;
+            if ((char)v1 == 'q')
                 break;
-            }
-
-            else
-                cerr << "ERROR: REPEAT NAME" << endl;
+            cin >> v2 >> weight;
+            edges[i] = Edge{v1, v2, weight};
         }
+        if ((char)v1 == 'q')
+            break;
     }
 
-    cout << "Input edges in the format: v1(name) v2(name)" << endl;
-    cout << "Type q to quit" << endl;
-    string v1, v2;
-        while (cin >> v1 )
-        {
-            if (v1 == "q") break;
-            cin >> v2;
-            int p1 = graph.find(v1, n);
-            if (p1 == -1)
-            {
-                cerr << "ERROR: v1 has an INVALID NAME" << endl;
-                continue;
-            }
-
-            int p2 = graph.find(v2, n);
-            if (p2 == -1)
-            {
-                cerr << "ERROR: v2 has an INVALID NAME" << endl;
-                continue;
-            }
-
-            //edges find
-            int p = graph.getVertices()[p1]->edgeFind(v2);
-
-            if (p != -1)
-            {
-                cerr << "ERROR: REPEAT EDGE" << endl;
-                continue;
-            }
-
-            graph.getVertices()[p1]->edges.push_back(graph.getVertices()[p2]);
-            graph.getVertices()[p2]->edges.push_back(graph.getVertices()[p1]);
-            break;
-        }
+    Graph g{n, edges, m};
 
     while (true)
     {
@@ -76,51 +37,53 @@ int main()
 
             if (option == "bfs")
             {
-                cout << "Input v(name) to output all connected vertices, or q to quit" << endl;
-                string v;
+                cout << "Input v(name) to output all connected vertices, or b to go back" << endl;
+                char v;
                 cin >> v;
 
-                if (v == "q")
+                if (v == 'b')
                 {
                     cout << "Options: dfs bfs q" << endl;
                     break;
                 }
 
-                int f = graph.find(v, n);
-                if (f == -1)
+                if (int(v) > n)
                 {
-                    cerr << "ERROR: INVALID NAME" << endl;
-                    continue;
+                    cout << "ERROR: requested vertex too large" << endl;
+                    cout << "Options: dfs bfs q" << endl;
+                    break;
                 }
-                graph.setVisited();
-                graph.breadth_first_search(f);
-                graph.delVisited();
+
+                // graph.setVisited();
+                g.depth_first_search(g.head[(int)v]);
+                //graph.delVisited();
             }
 
             else if (option == "dfs")
             {
                 cout << "Input v(name) to output all connected vertices, or b to go back" << endl;
-                string v;
+                char v;
                 cin >> v;
 
-                if (v == "b")
+                if (v == 'b')
                 {
                     cout << "Options: dfs bfs q" << endl;
                     break;
                 }
 
-                int f = graph.find(v, n);
-                if (f == -1)
+                if (int(v) > n)
                 {
-                    cerr << "ERROR: INVALID NAME" << endl;
-                    continue;
+                    cout << "ERROR: requested vertex too large" << endl;
+                    cout << "Options: dfs bfs q" << endl;
+                    break;
                 }
-                graph.setVisited();
-                graph.depth_first_search(graph.getVertices()[f]);
-                graph.delVisited();
+                //graph.setVisited();
+                g.depth_first_search(g.head[(int)v]);
+                //graph.delVisited();
             }
 
-            else if (option == "q") {
+            else if (option == "q")
+            {
                 break;
             }
         }
