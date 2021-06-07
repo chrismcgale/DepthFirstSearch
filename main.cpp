@@ -3,12 +3,12 @@
 int main()
 {
     int n, m;
-    Edge *edges;
 
     cout << "Input number of vertices" << endl;
     cin >> n;
-    cout << "Input number of vertices" << endl;
+    cout << "Input number of edges" << endl;
     cin >> m;
+    Edge* edges = new Edge[m];
 
     cout << "Input edges in the format: v1(int) v2(int) weight(int)" << endl;
     cout << "Type q to quit" << endl;
@@ -21,6 +21,7 @@ int main()
                 break;
             cin >> v2 >> weight;
             edges[i] = Edge{v1, v2, weight};
+            break;
         }
         if ((char)v1 == 'q')
             break;
@@ -32,54 +33,47 @@ int main()
     {
         cout << "Options: dfs bfs q" << endl;
         string option;
+        cin.clear();
         while (cin >> option)
         {
 
             if (option == "bfs")
             {
                 cout << "Input v(name) to output all connected vertices, or b to go back" << endl;
-                char v;
+                int v;
                 cin >> v;
 
                 if (v == 'b')
                 {
-                    cout << "Options: dfs bfs q" << endl;
                     break;
                 }
 
-                if (int(v) > n)
+                if (v > n)
                 {
                     cout << "ERROR: requested vertex too large" << endl;
-                    cout << "Options: dfs bfs q" << endl;
                     break;
                 }
 
-                // graph.setVisited();
-                g.depth_first_search(g.head[(int)v]);
-                //graph.delVisited();
+                g.depth_first_search(g.head[v - 1]);
             }
 
             else if (option == "dfs")
             {
                 cout << "Input v(name) to output all connected vertices, or b to go back" << endl;
-                char v;
+                int v;
                 cin >> v;
 
                 if (v == 'b')
                 {
-                    cout << "Options: dfs bfs q" << endl;
                     break;
                 }
 
-                if (int(v) > n)
+                if (v > n)
                 {
                     cout << "ERROR: requested vertex too large" << endl;
-                    cout << "Options: dfs bfs q" << endl;
                     break;
                 }
-                //graph.setVisited();
-                g.depth_first_search(g.head[(int)v]);
-                //graph.delVisited();
+                g.depth_first_search(g.head[v - 1]);
             }
 
             else if (option == "q")

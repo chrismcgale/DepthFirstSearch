@@ -8,7 +8,7 @@ EXEC=depth
 # First target in the makefile is the default target.
 # Note that the LIBFLAGS must come last in the command
 $(EXEC): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC) -lX11
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC)
 
 %.o: %.cc
 	$(CXX) -c -o $@ $< $(CXXFLAGS) 

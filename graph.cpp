@@ -1,26 +1,26 @@
 #include "graph.h"
 
+
 Graph::Graph(int n, Edge edges[], int m) : n{n}
 {
     head = new Vertex *[n]();
     for (int i = 0; i < n; ++i)
-        head[i] = nullptr;
-    for (int j = 0; j < n; ++j)
+        head[i] = new Vertex{i + 1, 0, nullptr};
+    for (int j = 0; j < m; ++j)
     {
-        int start = edges[j].start_ver;
+        int start = edges[j].start;
         int weight = edges[j].weight;
+        int end = edges[j].end;
 
-        head[start] = new Vertex{start, weight, head[start]};
+        head[start - 1]->next = head[end - 1];
+        head[end - 1]->next = head[start - 1];
     }
 }
 
 Graph::~Graph()
 {
-    for (int i = 0; i < n; ++i)
-    {
-        delete[] head[i];
-        delete[] head;
-    }
+    for (int i = 0; i < n; ++i) delete[] head[i];
+    delete [] head;
 }
 
 void Graph::breadth_first_search(Vertex *s)
@@ -47,6 +47,7 @@ void Graph::breadth_first_search(Vertex *s)
                 cout << v->value << endl;
             }
             v = v->next;
+            if(v == s) break;
         }
     }
 }
@@ -64,5 +65,6 @@ void Graph::depth_first_search(Vertex *s)
             depth_first_search(u);
         }
         u = u->next;
+        if(u == s) break;
     }
 }

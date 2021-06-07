@@ -2,11 +2,12 @@
 #include <algorithm>
 #include <vector>
 #include <queue>
+#include <map>
 using namespace std;
 
 struct Edge
 {
-    int start_ver, end_ver, weight;
+    int start, end, weight;
 };
 
 struct Vertex
@@ -20,6 +21,7 @@ class Graph
 {
     int n;
 public:
+    map<Vertex*, bool> visited;
     Vertex **head;
     Graph(int n, Edge edges[], int m);
     ~Graph();
